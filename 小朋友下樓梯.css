@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap");
+*, *:before, *:after {
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#myCanvas {
+  max-width: 100%;
+}
+
+#btnStart, .icon, #panelPause {
+  cursor: pointer;
+}
+
+#btnStart {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  padding: 20px 80px;
+  color: #45b7b5;
+  border: solid 4px #45b7b5;
+  box-shadow: 0 0 10px #45b7b5;
+  text-shadow: 0 0 10px #45b7b5;
+  border-radius: 10px;
+  background: none;
+  transition: 0.2s;
+  outline: none;
+}
+#btnStart:hover {
+  transform: translate(-50%, -50%) scale(105%);
+  padding: 20px 85px;
+  filter: brightness(105%);
+}
+
+#panelPause {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  font-size: 60px;
+  font-weight: 200;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  outline: none;
+}
+
+#muteControl {
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#mute {
+  display: none;
+}
+
+#muteOff {
+  display: block;
+}
+
+.mute #mute {
+  display: block;
+}
+.mute #muteOff {
+  display: none;
+}
+
+.icon {
+  position: fixed !important;
+  right: 20% !important;
+  bottom: 15px !important;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48 !important;
+  font-family: "Material Symbols Outlined" !important;
+  font-size: 60px !important;
+  color: #45b7b5 !important;
+  text-shadow: 0 0 4px #45b7b5;
+}
+.icon:hover {
+  transform: scale(105%);
+  transition: 0.2s;
+  filter: brightness(120%);
+}
+
+/*# sourceMappingURL=%E5%B0%8F%E6%9C%8B%E5%8F%8B%E4%B8%8B%E6%A8%93%E6%A2%AF.css.map */

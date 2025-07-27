@@ -1,0 +1,40 @@
+.body_when_gamePlaying #myCanvas {
+  display: block;
+}
+.body_when_gamePlaying #btnStart, .body_when_gamePlaying #panelPause, .body_when_gamePlaying #app {
+  display: none;
+}
+
+.body_when_gamePaused #myCanvas, .body_when_gamePaused #panelPause {
+  display: block;
+}
+.body_when_gamePaused #btnStart, .body_when_gamePaused #app {
+  display: none;
+}
+
+.body_when_gameRank {
+  height: auto;
+  overflow: visible;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body_when_gameRank #app {
+  display: block;
+}
+.body_when_gameRank #myCanvas, .body_when_gameRank #btnStart, .body_when_gameRank #panelPause {
+  display: none;
+}
+
+.body_when_gameStart #myCanvas, .body_when_gameStart #btnStart {
+  display: block;
+}
+.body_when_gameStart #panelPause, .body_when_gameStart #app {
+  display: none;
+}
+
+/*# sourceMappingURL=%E7%8B%80%E6%85%8B%E6%8E%A7%E5%88%B6.css.map */
