@@ -5,7 +5,6 @@ window.setViewState = function(stateClass) {
     body.className = ''
     html.classList.add(stateClass)
     body.classList.add(stateClass)
-    console.log('setViewState', stateClass)
 }
 window.getViewState = function() {
     return html.className

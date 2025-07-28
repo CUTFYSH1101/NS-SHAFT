@@ -2,18 +2,7 @@ var {createApp} = Vue
 var app = createApp({
     data() {
         return {
-            items: [
-                // {rank: 1, score: 95420, date: '2025-01-01'},
-                // {rank: 2, score: 89750, date: '2024-06-30'},
-                // {rank: 3, score: 88064, date: '2024-01-17'},
-                // {rank: 4, score: 87320, date: '2022-10-18'},
-                // {rank: 5, score: 77049, date: '2022-05-14'},
-                // {rank: 6, score: 66036, date: '2021-04-20'},
-                // {rank: 7, score: 55025, date: '2021-07-16'},
-                // {rank: 8, score: 44016, date: '2020-12-15'},
-                // {rank: 9, score: 33009, date: '2020-05-07'},
-                // {rank: 10, score: 22004, date: '2019-12-12'},
-            ],
+            items: [],
         }
     },
     methods: {
@@ -103,7 +92,7 @@ var vueInstance = app.mount('#app')
 var html = document.documentElement  // html 元素
 var body = document.body  // body 元素
 document.getElementById('showRecord').onclick = () => {
-    this.toggleLeaderboard()
+    toggleLeaderboard()
 }
 window.addEventListener("keydown", function (e) {
     if (e.key.toLowerCase() === 'l')
