@@ -7,45 +7,62 @@
     <title>小朋友下樓梯</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="小朋友下樓梯.css">
+    <link rel="stylesheet" href="通關紀錄表.css">  <!-- 通關紀錄表使用vue3製作 -->
+    <link rel="stylesheet" href="狀態控制.css">  <!-- 依賴於通關紀錄表&小朋友下樓梯 -->
 
-    <!-- 從 CDN 引入 jQuery -->
+    <!-- 外部依賴 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
-
-    <!-- 載入google icons -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-
-
-    <!-- 通關紀錄表使用vue3製作 -->
-    <link rel="stylesheet" href="通關紀錄表.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.min.js"></script>
-
-    <!-- 依賴於通關紀錄表&小朋友下樓梯 -->
-    <link rel="stylesheet" href="狀態控制.css">
+    <!-- google icon -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&text=volume_up,volume_off,crown"/>
 </head>
 
 <body>
 <div id="content-container"></div>
 <script>
-    // 加载外部HTML文件并插入到指定容器
-    fetch('小朋友下樓梯.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('content-container').innerHTML = data;
-            return Promise.all([
-                fetch("狀態控制.js").then(res => res.text()),
-                fetch("小朋友下樓梯.js").then(res => res.text()),
-                fetch("通關紀錄表.js").then(res => res.text())
-            ])
-        })
-        .then(jsFiles => {
-            jsFiles.forEach(jsCode => eval(jsCode))
-        })
-        .catch(error => console.error('加载外部内容失败:', error));
+    // 動態載入HTML頁面和相關程式檔案
+    (async () => {
+        try {
+            // 第一步：載入主畫面HTML檔案
+            const htmlResponse = await fetch('小朋友下樓梯.html')
+            if (!htmlResponse.ok) throw new Error('HTML載入失敗')
+            const htmlContent = await htmlResponse.text()
+            document.getElementById('content-container').innerHTML = htmlContent
+
+            // 第二步：按順序載入的腳本清單
+            const scripts = ['狀態控制.js', '小朋友下樓梯.js', '通關紀錄表.js']
+
+            for (const scriptSrc of scripts) {
+                await loadScript(scriptSrc)
+            }
+
+            console.log('所有資源載入完成')
+
+        } catch (error) {
+            console.error('載入失敗:', error) // 在控制台顯示詳細錯誤資訊
+            document.getElementById('content-container').innerHTML =
+                `<p>載入失敗：${error.message}</p>`
+        }
+
+        // 封裝可重用的腳本加載器，返回Promise便於異步控制
+        async function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script')
+                script.src = src
+                script.type = 'text/javascript' // 告訴瀏覽器這是JavaScript程式檔案
+                script.onload = () => {
+                    console.log(`${src} 載入完成`) // 在控制台顯示載入進度，方便除錯
+                    resolve()
+                }
+                script.onerror = () => reject(new Error(`${src} 載入失敗`)) // 如果檔案載入出錯，回報錯誤訊息
+                document.head.appendChild(script)
+            })
+        }
+    })()
 </script>
-<!--    <script src="/字串的處理.js"></script>-->
 </body>
 
 </html>
