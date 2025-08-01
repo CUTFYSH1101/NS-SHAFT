@@ -86,13 +86,19 @@ const CONFIG = {
     STAIR_JUMP_COLOR: '#4bc6bf',
     STAIR_NORMAL_COLOR: '#4bc6bf',
     STAIR_FADE_COLOR: 'rgba(75, 198, 191, 0.4)',
+    OUTLINE_BACKGROUND_COLOR: '#000517',
+    OUTLINE_STROKE_COLOR: '#60afa8',
     UPDATE_FPS: 30,                     // 每秒幾幀
     SHOW_MOUSE: true,                   // 顯示游標
     GAME_WIDTH: 700,                    // 遊戲視窗寬度
     GRAVITY: 0.8,                       // 角色往下掉的重力單位
     PLAYER_SPEED: 10,                   // 角色操作左右移動時的速度單位
-    STAIR_SPAWN_INTERVAL: 20,           // 遊戲進行中，間隔30幀(1秒)一個
-    INITIAL_STAIR_SPACING: 100,         // 遊戲剛開始生成的階梯，間隔每150單位一個
+    STAIR_JUMP_SPEED: -15,              // 跳跳梯給玩家的速度
+    INITIAL_STAIR_JUMP_SPEED: -15,
+    STAIR_STEP_OFFSET: 20,
+    STAIR_SPAWN_INTERVAL: 20,           // 遊戲進行中，間隔20幀(2/3秒)一個，相當於間隔每100px一個
+    INITIAL_STAIR_SPAWN_INTERVAL: 20,
+    INITIAL_STAIR_SPACING: 100,         // 遊戲剛開始生成的階梯，間隔每100px一個
     STAIRS_PER_DIFFICULTY_INCREASE: 30,
     INITIAL_STAIR_VELOCITY: -5         // 階梯預設往上跑
 }
@@ -170,8 +176,9 @@ function adjustDifficulty(value) {
     // 梯子生成速度、移動速度都會加快
     difficulty = value
     game.stairs.forEach(stair => stair.v.y = CONFIG.INITIAL_STAIR_VELOCITY * difficulty)
-    CONFIG.STAIR_SPAWN_INTERVAL = 30 / difficulty
+    CONFIG.STAIR_SPAWN_INTERVAL = CONFIG.INITIAL_STAIR_SPAWN_INTERVAL / difficulty
     time = 0 // 避免Stairs不生成
+    CONFIG.STAIR_JUMP_SPEED = CONFIG.INITIAL_STAIR_JUMP_SPEED - 3 * (difficulty - 1)
 
     // 玩家移動速度變快
     CONFIG.PLAYER_SPEED = 10 * difficulty
@@ -302,7 +309,7 @@ class Game {
             if (playerLeft < stairRight &&
                 playerRight > stairLeft &&
                 player.pos.y > stair.pos.y &&
-                diffY < stair.height + 20) {
+                diffY < stair.height + CONFIG.STAIR_STEP_OFFSET) {
                 touching = true
                 stair.step(player)
                 player.lastStair = stair
@@ -385,11 +392,11 @@ class Game {
         ctx.moveTo(CONFIG.GAME_WIDTH, 0)
         ctx.lineTo(CONFIG.GAME_WIDTH, windowHeight)
         ctx.lineWidth = 10
-        ctx.strokeStyle = '#333'
+        ctx.strokeStyle = CONFIG.OUTLINE_STROKE_COLOR
         ctx.stroke()
 
         // 超出範圍隱藏
-        ctx.fillStyle = 'black'
+        ctx.fillStyle = CONFIG.OUTLINE_BACKGROUND_COLOR
         ctx.fillRect(-(windowWidth / 2 - CONFIG.GAME_WIDTH / 2), 0, (windowWidth - CONFIG.GAME_WIDTH) / 2, windowHeight)
         ctx.fillRect(CONFIG.GAME_WIDTH, 0, (windowWidth - CONFIG.GAME_WIDTH) / 2, windowHeight)
     }
@@ -594,7 +601,7 @@ class Stair {
         // 只有第一次碰到才執行
         if (player.lastStair !== this) {
             if (this.type === "jump") {
-                player.v.y = -15 - 3 * (difficulty - 1)  // 跳高一點
+                player.v.y = CONFIG.STAIR_JUMP_SPEED  // 跳高一點
                 this.extraHeight = 10
                 TweenMax.to(this, 0.2, {extraHeight: 0})
             }
@@ -760,6 +767,32 @@ ctx.color = function (color) {
 function initCanvas() {
     windowWidth = canvas.width = window.innerWidth
     windowHeight = canvas.height = window.innerHeight
+
+    // RWD。寬度不同於700時
+    if (700 > windowWidth && windowWidth > 380)
+        CONFIG.GAME_WIDTH = windowWidth
+    else if (380 > windowWidth)
+        CONFIG.GAME_WIDTH = 380
+    else if (windowWidth > 700) CONFIG.GAME_WIDTH = 700
+
+    // RWD。高度不同於700時
+    let heightRatio = -1
+    let maxHeight = 1500
+    if (maxHeight > windowHeight && windowHeight > 380)
+        heightRatio = windowHeight / 700
+    else if (windowHeight > maxHeight)
+        heightRatio = maxHeight / 700
+    if (heightRatio > 0) {
+        CONFIG.STAIR_SPAWN_INTERVAL = 20 * heightRatio
+        CONFIG.INITIAL_STAIR_SPAWN_INTERVAL = 20 * heightRatio
+        CONFIG.INITIAL_STAIR_SPACING = 100 * heightRatio
+        CONFIG.INITIAL_STAIR_VELOCITY = -5 * heightRatio
+        CONFIG.GRAVITY = 0.8 * heightRatio
+        CONFIG.PLAYER_SPEED = 10 * heightRatio
+        CONFIG.STAIR_JUMP_SPEED = -15 * heightRatio
+        CONFIG.INITIAL_STAIR_JUMP_SPEED = -15 * heightRatio
+        CONFIG.STAIR_STEP_OFFSET = 20 * heightRatio
+    }
 }
 
 // 初始化

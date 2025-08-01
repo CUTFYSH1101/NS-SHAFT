@@ -1,0 +1,14 @@
+@media screen and (max-width: 1140px) {
+  .icon {
+    position: fixed;
+    right: initial;
+    left: 10px;
+  }
+  #showRecord {
+    position: fixed;
+    right: 10px;
+    left: initial;
+  }
+}
+
+/*# sourceMappingURL=rwd.css.map */
