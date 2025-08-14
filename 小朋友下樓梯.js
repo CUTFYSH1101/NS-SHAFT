@@ -266,7 +266,9 @@ class Game {
 
     // 操作玩家左右移動
     playerHorizontalMovement() {
-        if (this.keyStatus.left)
+        if (typeof joystickNormalizeX !== 'undefined' && joystickNormalizeX !== 0)
+            this.player.pos.x += CONFIG.PLAYER_SPEED * joystickNormalizeX
+        else if (this.keyStatus.left)
             this.player.pos.x -= CONFIG.PLAYER_SPEED
         else if (this.keyStatus.right)
             this.player.pos.x += CONFIG.PLAYER_SPEED
@@ -559,21 +561,18 @@ class Stair {
             let width = 10
             let x = 0
             ctx.fillStyle = CONFIG.STAIR_SLIDE_COLOR
-            for (let i = 0; i * gap <= this.width + width; i++) {
+            for (let i = 0; x <= this.width; i++) {
                 x = i * gap + time % gap * dir
                 width = 10
-                if (x > width && x < width * 2 && i === 0) {  // slideRight左方塊
-                    this.fillRect(0, x - width, dir)
-                }
-                if (x < 0) {  // slideLeft左方塊
-                    x = 0
-                    width -= time % gap
-                    if (width < 0) width = 0
-                }
-                if (x + width > this.width) {  // slideRight/Left右方塊
+                if (x + width > this.width) {  // 右方塊
                     width = this.width - x
                     if (width < 0) width = 0
-                    if (x > this.width) x = this.width
+                } else if (i === 0 && x < 0) { // 左方塊消失
+                    width += x
+                    x = 0
+                    if (width < 0) width = 0
+                } else if (i === 0 && x > gap - width) {  // 左方塊出現
+                    this.fillRect(0, x - (gap - width), dir)
                 }
                 this.fillRect(x, width, dir)
             }

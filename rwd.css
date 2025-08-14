@@ -1,14 +1,32 @@
 @media screen and (max-width: 1140px) {
-  .icon {
+  #muteControl {
     position: fixed;
+    left: 15px;
     right: initial;
-    left: 10px;
+    bottom: 15px;
   }
   #showRecord {
     position: fixed;
-    right: 10px;
     left: initial;
+    right: 15px;
+    bottom: 15px;
   }
+  #toolbar {
+    position: static;
+  }
+  #showJoystick {
+    display: none;
+  }
+  #joystick {
+    display: block !important;
+    right: 15% !important;
+    width: 160px !important;
+  }
+}
+#toolbar {
+  position: fixed;
+  left: 75%;
+  bottom: 15px;
 }
 
 /*# sourceMappingURL=rwd.css.map */

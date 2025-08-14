@@ -60,9 +60,7 @@ html, body {
 }
 
 #muteControl {
-  position: absolute;
-  width: 0;
-  height: 0;
+  display: inline-block;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -84,13 +82,11 @@ html, body {
 }
 
 .icon {
-  position: fixed !important;
-  right: 20% !important;
-  bottom: 15px !important;
+  position: relative;
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48 !important;
-  font-family: "Material Symbols Outlined" !important;
+  font-family: "Material Symbols Outlined";
   font-size: 60px !important;
-  color: #45b7b5 !important;
+  color: #45b7b5;
   text-shadow: 0 0 4px #45b7b5;
 }
 .icon:hover {

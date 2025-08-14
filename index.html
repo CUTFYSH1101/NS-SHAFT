@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="通關紀錄表.css">  <!-- 通關紀錄表使用vue3製作 -->
     <link rel="stylesheet" href="狀態控制.css">  <!-- 依賴於通關紀錄表&小朋友下樓梯 -->
     <link rel="stylesheet" href="rwd.css">  <!-- 搭配小朋友下樓梯.js的initCanvas內的程式碼 -->
+    <link rel="stylesheet" href="joystick.css">  <!-- 虛擬搖桿 -->
 
     <!-- 外部依賴 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.min.js"></script>
     <!-- google icon -->
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=crown,volume_off,volume_up" />
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=crown,gamepad,volume_off,volume_up" />
 </head>
 
 <body>
@@ -34,7 +35,7 @@
             document.getElementById('content-container').innerHTML = htmlContent
 
             // 第二步：按順序載入的腳本清單
-            const scripts = ['狀態控制.js', '小朋友下樓梯.js', '通關紀錄表.js']
+            const scripts = ['狀態控制.js', '小朋友下樓梯.js', '通關紀錄表.js', 'joystick.js']
 
             for (const scriptSrc of scripts) {
                 await loadScript(scriptSrc)
