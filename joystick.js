@@ -40,6 +40,11 @@ function updateJoystick(touchX, touchY) {
         knobX = relativeX
         knobY = relativeY
     }
+    if (knobX === 0) {
+        initJoystick()
+        resetJoystick()
+        return
+    }
 
     knob.style.left = knobX + 'px'
     knob.style.top = knobY + 'px'
