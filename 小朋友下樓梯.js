@@ -92,15 +92,19 @@ const CONFIG = {
     SHOW_MOUSE: true,                   // 顯示游標
     GAME_WIDTH: 700,                    // 遊戲視窗寬度
     GRAVITY: 0.8,                       // 角色往下掉的重力單位
+    INITIAL_GRAVITY: 0.8,
     PLAYER_SPEED: 10,                   // 角色操作左右移動時的速度單位
+    INITIAL_PLAYER_SPEED: 10,
     STAIR_JUMP_SPEED: -15,              // 跳跳梯給玩家的速度
     INITIAL_STAIR_JUMP_SPEED: -15,
     STAIR_STEP_OFFSET: 20,
+    INITIAL_STAIR_STEP_OFFSET: 20,
     STAIR_SPAWN_INTERVAL: 20,           // 遊戲進行中，間隔20幀(2/3秒)一個，相當於間隔每100px一個
     INITIAL_STAIR_SPAWN_INTERVAL: 20,
     INITIAL_STAIR_SPACING: 100,         // 遊戲剛開始生成的階梯，間隔每100px一個
     STAIRS_PER_DIFFICULTY_INCREASE: 30,
-    INITIAL_STAIR_VELOCITY: -5         // 階梯預設往上跑
+    INITIAL_STAIR_VELOCITY: -5,         // 階梯預設往上跑
+    STAIR_WIDTH: 150,
 }
 
 // -----------------------------------------
@@ -181,7 +185,9 @@ function adjustDifficulty(value) {
     CONFIG.STAIR_JUMP_SPEED = CONFIG.INITIAL_STAIR_JUMP_SPEED - 3 * (difficulty - 1)
 
     // 玩家移動速度變快
-    CONFIG.PLAYER_SPEED = 10 * difficulty
+    CONFIG.PLAYER_SPEED = CONFIG.INITIAL_PLAYER_SPEED * difficulty
+    CONFIG.GRAVITY = CONFIG.INITIAL_GRAVITY * difficulty
+    CONFIG.STAIR_STEP_OFFSET = CONFIG.INITIAL_STAIR_STEP_OFFSET * difficulty
 }
 
 // 遊戲
@@ -234,6 +240,7 @@ class Game {
                 // 0~700, 100~
                 pos: new Vec2(Math.random() * CONFIG.GAME_WIDTH, i * CONFIG.INITIAL_STAIR_SPACING + 100),
                 type: randomSelect(types),
+                width: CONFIG.STAIR_WIDTH,
             }))
         }
     }
@@ -768,11 +775,19 @@ function initCanvas() {
     windowHeight = canvas.height = window.innerHeight
 
     // RWD。寬度不同於700時
-    if (700 > windowWidth && windowWidth > 380)
+    if (700 > windowWidth && windowWidth > 380) {
         CONFIG.GAME_WIDTH = windowWidth
-    else if (380 > windowWidth)
+        CONFIG.STAIR_WIDTH = 150
+        CONFIG.STAIR_WIDTH = 150 * 0.8
+    }
+    else if (380 > windowWidth) {
         CONFIG.GAME_WIDTH = 380
-    else if (windowWidth > 700) CONFIG.GAME_WIDTH = 700
+        CONFIG.STAIR_WIDTH = 150 * 0.6
+    }
+    else if (windowWidth > 700) {
+        CONFIG.GAME_WIDTH = 700
+        CONFIG.STAIR_WIDTH = 150
+    }
 
     // RWD。高度不同於700時
     let heightRatio = -1
