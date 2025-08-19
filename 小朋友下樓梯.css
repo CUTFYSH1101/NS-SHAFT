@@ -59,19 +59,6 @@ html, body {
   outline: none;
 }
 
-#pauseIcon {
-  display: none;
-}
-
-@media screen and (max-width: 1140px) {
-  html.body_when_gamePlaying #pauseIcon {
-    display: block !important;
-    position: fixed;
-    right: 30px;
-    top: 60px;
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48 !important;
-  }
-}
 #muteControl {
   display: inline-block;
   margin: 0;

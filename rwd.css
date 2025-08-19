@@ -29,4 +29,34 @@
   bottom: 15px;
 }
 
+#pauseIcon {
+  display: none;
+}
+
+@media screen and (max-width: 1140px) {
+  html.body_when_gamePlaying #pauseIcon {
+    display: block !important;
+    position: fixed;
+    right: 30px;
+    top: 60px;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48 !important;
+  }
+}
+@media screen and (max-width: 1140px) {
+  html.body_when_gameRank {
+    background-color: #1c1c1c !important;
+  }
+  html.body_when_gameRank body, html.body_when_gameRank #content-container, html.body_when_gameRank .panelContainer, html.body_when_gameRank .panel, html.body_when_gameRank .rows {
+    width: 100%;
+    padding: 0 !important;
+    box-sizing: border-box;
+    background-color: #1c1c1c !important;
+    box-shadow: none !important;
+  }
+  html.body_when_gameRank h1 {
+    margin-top: 40px;
+    font-size: 300%;
+  }
+}
+
 /*# sourceMappingURL=rwd.css.map */
