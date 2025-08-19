@@ -107,6 +107,19 @@ const CONFIG = {
     STAIR_WIDTH: 150,
 }
 
+function setStairInterval(multiple) {
+    CONFIG.INITIAL_STAIR_SPAWN_INTERVAL = 20 * multiple
+    CONFIG.INITIAL_STAIR_SPACING = 100 * multiple
+    CONFIG.STAIR_SPAWN_INTERVAL = CONFIG.INITIAL_STAIR_SPAWN_INTERVAL / difficulty
+}
+
+function setPlayerPhysic(multiple) {
+    CONFIG.INITIAL_GRAVITY = 0.8 * multiple
+    CONFIG.INITIAL_STAIR_STEP_OFFSET = 20 * multiple
+    CONFIG.GRAVITY = CONFIG.INITIAL_GRAVITY * difficulty
+    CONFIG.STAIR_STEP_OFFSET = CONFIG.INITIAL_STAIR_STEP_OFFSET * difficulty
+}
+
 // -----------------------------------------
 // Vec2
 
@@ -797,15 +810,16 @@ function initCanvas() {
     else if (windowHeight > maxHeight)
         heightRatio = maxHeight / 700
     if (heightRatio > 0) {
-        CONFIG.STAIR_SPAWN_INTERVAL = 20 * heightRatio
-        CONFIG.INITIAL_STAIR_SPAWN_INTERVAL = 20 * heightRatio
-        CONFIG.INITIAL_STAIR_SPACING = 100 * heightRatio
+        setStairInterval(heightRatio)
+        setPlayerPhysic(heightRatio)
         CONFIG.INITIAL_STAIR_VELOCITY = -5 * heightRatio
-        CONFIG.GRAVITY = 0.8 * heightRatio
         CONFIG.PLAYER_SPEED = 10 * heightRatio
         CONFIG.STAIR_JUMP_SPEED = -15 * heightRatio
         CONFIG.INITIAL_STAIR_JUMP_SPEED = -15 * heightRatio
-        CONFIG.STAIR_STEP_OFFSET = 20 * heightRatio
+    }
+
+    if (windowWidth > 700) {
+        setStairInterval(heightRatio * 0.8)  // 網頁版增加梯子出現的頻率
     }
 }
 
