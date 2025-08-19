@@ -13,7 +13,9 @@ gui
         controls.value = difficulty
     })
 
+// ==========================================
 // 音效
+// ==========================================
 class SoundManager {
     arePlaying = []
 
@@ -76,7 +78,9 @@ class SoundManager {
     }
 }
 
+// ==========================================
 // 全域設定與常數
+// ==========================================
 const CONFIG = {
     BG_COLOR: '#0f2d48',                // 背景顏色是黑色
     STAIR_SLIDE_COLOR: '#ff6b6b',
@@ -176,7 +180,9 @@ class Vec2 {
     }
 }
 
+// ==========================================
 // 難度調整
+// ==========================================
 var difficulty = 1
 
 function addDifficulty() {
@@ -203,7 +209,9 @@ function adjustDifficulty(value) {
     CONFIG.STAIR_STEP_OFFSET = CONFIG.INITIAL_STAIR_STEP_OFFSET * difficulty
 }
 
+// ==========================================
 // 遊戲
+// ==========================================
 class Game {
     constructor() {
         this.player = null
@@ -490,7 +498,9 @@ function hurtEffect() {
     soundManager.playSound("hurt")
 }
 
+// ==========================================
 // Stair 梯子
+// ==========================================
 class Stair {
     constructor(args) {
         let default_ = {
@@ -525,6 +535,10 @@ class Stair {
     draw() {
         ctx.save()
         ctx.translate(this.pos.x - this.width / 2, this.pos.y - this.extraHeight)
+        // 顯示
+        // ctx.fillStyle = '#3da19b'
+        // ctx.font = '20px Arial'
+        // ctx.fillText(this.type, 0, 40)
         this.drawBottom()
         this.drawFade()
         this.drawJump()
@@ -643,7 +657,9 @@ class Stair {
     }
 }
 
+// ==========================================
 // Player 玩家
+// ==========================================
 class Player {
     constructor(args) {
         let default_ = {
@@ -993,6 +1009,12 @@ document.getElementById('panelPause').onclick = () => {
     game.keyStatus.paused = false
     soundManager.pauseAllWithoutBgm(false)
 }
+document.getElementById('pauseIcon').onclick = () => {
+    window.setViewState('body_when_gamePaused')
+    game.keyStatus.paused = true
+    soundManager.pauseAllWithoutBgm(true)
+}
+
 window.setViewState('body_when_gameStart')
 
 var showRecordMethod = function () {}
