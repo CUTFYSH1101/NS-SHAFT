@@ -5,8 +5,8 @@ var controls = {
 }
 var gui = new dat.GUI()
 gui
-    .add(controls, "value", 1, 2.5)
-    .step(0.5)
+    .add(controls, "value", 1, 2.6)
+    .step(0.1)
     .name('遊戲難度')
     .onChange(function (value) {
         adjustDifficulty(value)
@@ -106,7 +106,7 @@ const CONFIG = {
     STAIR_SPAWN_INTERVAL: 20,           // 遊戲進行中，間隔20幀(2/3秒)一個，相當於間隔每100px一個
     INITIAL_STAIR_SPAWN_INTERVAL: 20,
     INITIAL_STAIR_SPACING: 100,         // 遊戲剛開始生成的階梯，間隔每100px一個
-    STAIRS_PER_DIFFICULTY_INCREASE: 30,
+    STAIRS_PER_DIFFICULTY_INCREASE: 20,
     INITIAL_STAIR_VELOCITY: -5,         // 階梯預設往上跑
     STAIR_WIDTH: 150,
 }
@@ -186,15 +186,15 @@ class Vec2 {
 var difficulty = 1
 
 function addDifficulty() {
-    if (difficulty >= 2.5) return  // 難度範圍[1, 1.5, 2, 2.5]
-    difficulty += 0.5
+    if (difficulty >= 2.6) return  // 難度範圍[1, 2.6]
+    difficulty += 0.1
     adjustDifficulty(difficulty)
 }
 
 function adjustDifficulty(value) {
-    // 難度範圍[1,1,5,2,2.5]
+    // 難度範圍[1, 2.6]
     if (value < 1) value = 1
-    if (value > 2.5) value = 2.5
+    if (value > 2.6) value = 2.6
 
     // 梯子生成速度、移動速度都會加快
     difficulty = value
@@ -271,8 +271,8 @@ class Game {
         if (!this.playing) return
         if (this.keyStatus.paused) return
 
-        // 每30層調整一次難度
-        if (this.level % 30 === 0 && this.level > 1
+        // 每20層調整一次難度
+        if (this.level % 20 === 0 && this.level > 1
             && this.lastDifficultyAdjustedLevel !== this.level) {
             this.lastDifficultyAdjustedLevel = this.level
             addDifficulty()
@@ -520,10 +520,10 @@ class Stair {
 
 
     update() {
-        // 難度[2,2.5]時梯子會左右亂動，2.5時亂動更快
+        // 難度[2,2.6]時梯子會左右亂動，2.6時亂動更快
         if (difficulty === 2)
             this.a.x = Math.floor(Math.random() * 2) === 1 ? -0.1 : 0.1
-        if (difficulty === 2.5)
+        if (difficulty === 2.6)
             this.a.x = Math.floor(Math.random() * 2) === 1 ? -0.2 : 0.2
 
         this.v = this.v.add(this.a)
